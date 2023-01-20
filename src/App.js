@@ -17,33 +17,36 @@ export default class App extends Component {
   }
 
   handleSubmit = (e) => {
-    console.log(e);
+    // console.log(e);
     e.preventDefault();
     let formData = {};
-    for(let i = 0; i < this.formRef.current.elements.length; i++) {
-      formData[this.formRef.current.elements[i]] = this.formRef.current.elements[i].value;
+    for (let i = 0; i < this.formRef.current.elements.length; i++) {
+      // console.log(this.formRef.current.elements[i].name)
+      formData[this.formRef.current.elements[i].name] =
+        this.formRef.current.elements[i].value;
     }
-    
-    console.log("form",formData)
+
+    // console.log("form",formData)
 
     this.setState((prevState) => ({
       ...prevState,
       formData,
-      products: [
-        ...prevState.products, formData
-      ]
-    })
-    );
+      products: [...prevState.products, formData],
+    }));
 
-    // this.formData.current.value = ''
+    for (let i = 0; i < this.formRef.current.elements.length; i++) {
+      // console.log('before', this.formRef.current.elements[i].value);
+      this.formRef.current.elements[i].value = '';
+      // console.log('after', this.formRef.current.elements[i].value);
+    }
   };
 
-  handleDelete= (targetIdx) => {
+  handleDelete = (targetIdx) => {
     // console.log(i)
     this.setState((prevState) => ({
       ...prevState,
-      products: this.state.products.filter((_,i) => i !== targetIdx)
-    }))
+      products: this.state.products.filter((_, i) => i !== targetIdx),
+    }));
   };
 
   render() {
@@ -86,16 +89,23 @@ export default class App extends Component {
             <label>Product Name: </label>
             <input
               type="text"
-              
+              name="prodname"
               placeholder="prodname"
+              required
             ></input>
             <label>Product Category: </label>
-            <input type="text"  placeholder="prodcat"></input>
+            <input 
+              type="text" 
+              name="prodcat" 
+              placeholder="prodcat" 
+              required>
+              </input>
             <label>Product Price: </label>
             <input
               type="float"
-              
+              name="prodprice"
               placeholder="prodprice"
+              required
             ></input>
             <button>Add New</button>
           </form>
